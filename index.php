@@ -40,6 +40,7 @@ $osoby[2]->nazwisko = "Kowalski";
 <th>Nazwisko</th>
 </tr>
 <?php
+// foreach($osoby as $osoba)
 for($i = 0; $i < 3; $i++){
     echo "<tr>";
     echo "<td>".$osoby[$i]->imie."</td>";
