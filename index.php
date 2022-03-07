@@ -7,6 +7,12 @@
 <body>
 <?php
 require "osoba.php";
+require "plik.php";
+
+
+$user = new Uzytkownik("Tomasz","Malinowski", 1);
+$user->pokaz();
+$user->pokazId();
 
 $osoby = array();
 
