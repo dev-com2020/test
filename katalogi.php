@@ -39,12 +39,30 @@ echo "<li>$plik</li>";
 </body>
 </html> -->
 
-<ul>
+<!-- <ul>
 <?php
 $dir = "./";
 $pliki = scandir("$dir");
 echo "<li>";
 echo implode("</li><li>", $pliki);
 echo "</li>";
+?>
+</ul> -->
+
+<ul>
+<?php
+$dir = "./";
+$pliki = array();
+if(!($fd = opendir($dir))){
+exit("Nie mogę otworzyć katalogu $dir!");
+}
+while (($plik = readdir($fd)) !== false){
+$pliki[] = $plik;
+}
+closedir($fd);
+sort($pliki);
+foreach($pliki as $plik){
+echo "<li>$plik</li>";
+}
 ?>
 </ul>
