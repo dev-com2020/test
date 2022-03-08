@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -20,4 +20,13 @@ echo "Dziękujemy za przesłanie opinii.";
 }
 ?>
 </body>
-</html>
+</html> -->
+
+<?php
+if(isset($_POST["opinia"]) && $_POST["opinia"] != ""){
+$str = substr($_POST['opinia'], 0, 255);
+$str = strip_tags($str);
+file_put_contents("./opinie.txt", "$str\n", FILE_APPEND);
+}
+header('Location:dziekuje.html');
+?>
