@@ -23,3 +23,10 @@ CREATE TABLE KsiazkiAutorzy
 `AutorId` INTEGER NOT NULL,
 PRIMARY KEY(`KsiążkaId`, `AutorId`)
 );
+
+CREATE TABLE Wydawnictwa
+(
+`Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`Nazwa` VARCHAR(100) NOT NULL,
+`Adres` VARCHAR(100)
+);
