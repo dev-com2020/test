@@ -70,3 +70,12 @@ CREATE TABLE Opinie
 `Ocena` ENUM ('1', '2', '3', '4', '5', '6'),
 `Opinia` TEXT
 );
+
+CREATE TABLE Recenzje
+(
+`Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`KsiążkaId` INTEGER NOT NULL,
+`Autor` VARCHAR(60),
+`Źródło` VARCHAR(100),
+`Recenzja` TEXT NOT NULL
+);
