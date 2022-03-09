@@ -52,3 +52,12 @@ CREATE TABLE Zamowienia
 `Data realizacji` DATE,
 `Status` INTEGER NOT NULL
 );
+
+CREATE TABLE KsiazkiZamowienia
+(
+`KsiążkaId` INTEGER NOT NULL,
+`ZamówienieId` INTEGER NOT NULL,
+`Ilość` INTEGER NOT NULL,
+`Cena` DECIMAL(6,2) NOT NULL,
+PRIMARY KEY(`KsiążkaId`, `ZamówienieId`)
+);
