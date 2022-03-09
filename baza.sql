@@ -1,0 +1,10 @@
+CREATE TABLE Ksiazki
+(
+  `Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+  `WydawnictwoId` INTEGER NOT NULL,
+  `Tytuł` VARCHAR(100) NOT NULL,
+  `ISBN` VARCHAR(13),
+  `Rok wydania` YEAR,
+  `Opis` TEXT,
+  `Cena` DECIMAL(6,2)
+);
