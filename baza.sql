@@ -79,3 +79,10 @@ CREATE TABLE Recenzje
 `Źródło` VARCHAR(100),
 `Recenzja` TEXT NOT NULL
 );
+
+CREATE TABLE AutorzyPseudonimy
+(
+`AutorId1` INTEGER NOT NULL,
+`AutorId2` INTEGER NOT NULL,
+PRIMARY KEY(`AutorId1`, `AutorId2`)
+);
