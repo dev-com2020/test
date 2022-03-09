@@ -61,3 +61,12 @@ CREATE TABLE KsiazkiZamowienia
 `Cena` DECIMAL(6,2) NOT NULL,
 PRIMARY KEY(`KsiążkaId`, `ZamówienieId`)
 );
+
+CREATE TABLE Opinie
+(
+`Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`KsiążkaId` INTEGER NOT NULL,
+`KlientId` INTEGER NOT NULL,
+`Ocena` ENUM ('1', '2', '3', '4', '5', '6'),
+`Opinia` TEXT
+);
