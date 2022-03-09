@@ -15,3 +15,11 @@ CREATE TABLE Autorzy
 `Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
 `Nazwa` VARCHAR(100) NOT NULL
 );
+
+
+CREATE TABLE KsiazkiAutorzy
+(
+`KsiążkaId` INTEGER NOT NULL,
+`AutorId` INTEGER NOT NULL,
+PRIMARY KEY(`KsiążkaId`, `AutorId`)
+);
