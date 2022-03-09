@@ -43,3 +43,12 @@ CREATE TABLE Klienci
 `Kod` VARCHAR(6) NOT NULL,
 `Kraj` VARCHAR(45) NOT NULL
 );
+
+CREATE TABLE Zamowienia
+(
+`Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`KlientId` INTEGER NOT NULL,
+`Data wprowadzenia` DATETIME NOT NULL,
+`Data realizacji` DATE,
+`Status` INTEGER NOT NULL
+);
