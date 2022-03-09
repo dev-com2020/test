@@ -8,3 +8,10 @@ CREATE TABLE Ksiazki
   `Opis` TEXT,
   `Cena` DECIMAL(6,2)
 );
+
+
+CREATE TABLE Autorzy
+(
+`Id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`Nazwa` VARCHAR(100) NOT NULL
+);
