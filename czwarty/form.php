@@ -19,7 +19,7 @@
       <div style="font-size:16pt">
         <?=$komunikat?>
       </div>
-      <form action = "http://localhost/test/czwarty/login.php"
+      <form action = "http://localhost/login.php"
             method = "POST">
         <table>
           <tr>
@@ -33,15 +33,15 @@
               <input type="password" name="haslo">
             </td>
           </tr><tr>
-          <td>
-<a href="new_user_form.php">Rejestracja</a>
-</td>
-<td style="text-align:right;">
-<input type="submit" value="Wejdź">
-</td>
-</tr>
-</table>
-</form>
+            <td>
+              <a href="new_user_form.php">Rejestracja</a>
+            </td>
+            <td style="text-align:right;">
+              <input type="submit" value="Wejdź">
+            </td>
+          </tr>
+        </table>
+      </form>
     </div>
   </body>
 </html>

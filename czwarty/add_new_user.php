@@ -9,84 +9,110 @@
   $haslo = "";
 
   function addUser($nazwa, $pass, $pass2, $imie, $nazwisko, $email){
-   //Umożliwienie odwołań do zmiennych globalnych
-global $host, $baza, $uzytkownik, $haslo;
-//Sprawdzenie poprawności danych (długość)
-//Dla kodowania jednobajtowego
-//$userPassLength = strlen($pass);
-//Dla kodowania utf-8
-//$userPassLength = strlen(utf8_decode($pass));
-//lub:
-$userPassLength = mb_strlen($pass, 'UTF-8');
-//Zła długość hasła
-if($userPassLength < 6 || $userPassLength > 40){
-return INVALID_USER_PASS;
-}
-//Powtórzenie hasła różne od oryginału
-if($pass != $pass2){
-return PASSWORDS_DO_NOT_MATCH;
-}
-if($imie == "" || $nazwisko == "" || $email == ""){
-return EMPTY_FIELDS;
-}
-//Sprawdzenie poprawności danych (wyrażenia regularne)
-if(!preg_match("/^[a-zA-Z0-9_.]{3,20}$/", $nazwa)){
-return INVALID_USER_NAME;
-};
-//Tutaj ewentualne dalsze instrukcje weryfikujące dane
-//Nawiązanie połączenia z bazą danych
-$db_obj = new mysqli($host, $uzytkownik, $haslo, $baza);
-if($db_obj->connect_errno){
-//echo 'Wystąpił błąd podczas próby połączenia z serwerem MySQL...';
-//echo $db_obj->connect_error;
-return SERVER_ERROR;
-}
-//Zabezpieczenie znaków specjalnych w parametrach
-$nazwa = $db_obj->real_escape_string($nazwa);
-$imie = $db_obj->real_escape_string($imie);
-$nazwisko = $db_obj->real_escape_string($nazwisko);
-$email = $db_obj->real_escape_string($email);
-//Sprawdzenie, czy użytkownik o podanej nazwie istnieje w bazie
-$query = "SELECT COUNT(*) FROM Users WHERE Nazwa='$nazwa' ";
-if(!$result = $db_obj->query($query)){
-//echo 'Wystąpił błąd: nieprawidłowe zapytanie...';
-$db_obj->close();
-return SERVER_ERROR;
-}
-if(!$row = $result->fetch_row()){
-//echo('Wystąpił błąd: nieprawidłowe wyniki zapytania...');
-$db_obj->close();
-return SERVER_ERROR;
-}
-else{
-//Użytkownik istnieje, nie można dodać nowego wpisu do bazy
-if($row[0] > 0){
-$db_obj->close();
-return USER_NAME_ALREADY_EXISTS;
-}
-}
-//Dodanie nowego użytkownika
-$pass = crypt($pass);
-$query = "INSERT INTO Users VALUES(";
-$query .= "NULL, '$nazwa', '$pass', '$imie', '$nazwisko', '$email')";
-if(!$result = $db_obj->query($query)){
-//echo('Wystąpił błąd: instrukcja INSERT...');
-$db_obj->close();
-return SERVER_ERROR;
-}
-//Pobranie liczby dodanych rekordów
-$count = $db_obj->affected_rows;
-if($count <> 1){
-//Niewłaściwe wyniki zapytania
-$db_obj->close();
-return SERVER_ERROR;
-}
-else{
-//Prawidłowe dodanie rekordu
-$db_obj->close();
-return OK;
-}
-}
+    //Umożliwienie odwołań do zmiennych globalnych
+    global $host, $baza, $uzytkownik, $haslo;
+
+    //Sprawdzenie poprawności danych (długość).
+    //Dla kodowania jednobajtowego
+    //$userPassLength = strlen($pass);
+    //Dla kodowania utf-8
+    //$userPassLength = strlen(utf8_decode($pass));
+    //lub:
+    $userPassLength = mb_strlen($pass, 'UTF-8');
+
+    //Zła długość hasła
+    if($userPassLength < 6 || $userPassLength > 40){
+      return INVALID_USER_PASS;
+    }
+    
+    //Powtórzenie hasła różne od oryginału
+    if($pass != $pass2){
+      return PASSWORDS_DO_NOT_MATCH;
+    }
+
+    if($imie == "" || $nazwisko == "" || $email == ""){
+      return EMPTY_FIELDS;
+    }
+
+    //Sprawdzenie poprawności danych (wyrażenia regularne)
+    if(!preg_match("/^[a-zA-Z0-9_.]{3,20}$/", $nazwa)){
+      return INVALID_USER_NAME;
+    };
+    
+    //Tutaj ewentualne dalsze instrukcje weryfikujące dane
+
+    //Nawiązanie połączenia z bazą danych
+    $db_obj = new mysqli($host, $uzytkownik, $haslo, $baza);
+    if($db_obj->connect_errno){
+      //echo 'Wystąpił błąd podczas próby połączenia z serwerem MySQL...';
+      //echo $db_obj->connect_error;
+      return SERVER_ERROR;
+    }
+
+    //Zabezpieczenie znaków specjalnych w parametrach
+    $nazwa = $db_obj->real_escape_string($nazwa);
+    $imie = $db_obj->real_escape_string($imie);
+    $nazwisko = $db_obj->real_escape_string($nazwisko);
+    $email = $db_obj->real_escape_string($email);
+    
+    //Sprawdzenie, czy użytkownik o podanej nazwie istnieje w bazie.
+    $query = "SELECT COUNT(*) FROM Users WHERE Nazwa='$nazwa' ";
+
+    if(!$result = $db_obj->query($query)){
+      //echo 'Wystąpił błąd: nieprawidłowe zapytanie...';
+      $db_obj->close();
+      return SERVER_ERROR;
+    }
+
+    if(!$row = $result->fetch_row()){
+      //echo('Wystąpił błąd: nieprawidłowe wyniki zapytania...');
+      $db_obj->close();
+      return SERVER_ERROR;
+    }
+    else{
+      //Użytkownik istnieje, nie można dodać nowego wpisu do bazy.
+      if($row[0] > 0){
+        $db_obj->close();
+        return USER_NAME_ALREADY_EXISTS;
+      }
+    }
+    
+    $pattern = '/(^\$.+\$).+/';
+    $stored_hash = '$1$N1EHVYY9$qz.BE7oyWWkD85o5uCvO8/';
+    preg_match($pattern, $stored_hash, $pass);
+    if (empty($matches[1])){
+      return false;
+    };
+    //Dodanie nowego użytkownika
+    $pass = crypt($pass, $matches[1]);
+    if (!hash_equals($hash, $stored_hash)) {
+    return false;
+    }
+    $stored_hash = password_hash($pass, PASSWORD_DEFAULT);
+    
+    $query = "INSERT INTO Users VALUES(";
+    $query .= "NULL, '$nazwa', '$pass', '$imie', '$nazwisko', '$email')";
+
+    if(!$result = $db_obj->query($query)){
+      //echo('Wystąpił błąd: instrukcja INSERT...');
+      $db_obj->close();
+      return SERVER_ERROR;
+    }
+
+    //Pobranie liczby dodanych rekordów
+    $count = $db_obj->affected_rows;
+
+    if($count <> 1){
+      //Niewłaściwe wyniki zapytania
+      $db_obj->close();
+      return SERVER_ERROR;
+    }
+    else{
+      //Prawidłowe dodanie rekordu
+      $db_obj->close();
+      return OK;
+    }    
+  }
   
   //Sprawdzenie, czy użytkownik jest już zalogowany.
   if(isset($_SESSION['zalogowany'])){
