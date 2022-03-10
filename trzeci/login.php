@@ -70,9 +70,9 @@ if(!isset($_POST["haslo"]) || !isset($_POST["user"])){
 
 $val = checkPass($_POST["user"], $_POST["haslo"]);
 switch($val){
-  case 0 : include('index1.html');break;
-  case 1 : include('error_server.html');break;
-  case 2 : include('bad_login.html');break;
-  default : include('error_server.html');
+  case 0 : include('./index1.html');break;
+  case 1 : include('./error_server.html');break;
+  case 2 : include('./bad_login.html');break;
+  default : include('./error_server.html');
 }
 ?>
